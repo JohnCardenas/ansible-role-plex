@@ -1,0 +1,13 @@
+---
+# tasks file for plex
+- include_tasks: plex-install-centos7.yml
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+  tags:
+    - plex
+    - plex:install
+
+- include_tasks: plex-install-ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+  tags:
+    - plex
+    - plex:install

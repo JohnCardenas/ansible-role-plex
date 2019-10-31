@@ -1,0 +1,27 @@
+---
+- name: Add Plex Yum Repository
+  yum_repository:
+    name: plex
+    description: Plex Yum Repository
+    baseurl: https://downloads.plex.tv/repo/rpm/$basearch/
+    gpgkey: https://downloads.plex.tv/plex-keys/PlexSign.key
+    gpgcheck: true
+- name: Install Plex
+  yum:
+    name: plexmediaserver
+    state: present
+    update_cache: true
+  notify: restart plex
+
+- name: Autostart Plex
+  service:
+    name: plexmediaserver
+    enabled: true
+  notify: restart plex
+
+- name: Allow Plex in firewalld
+  firewalld:
+    port: 32400/tcp
+    permanent: true
+    immediate: true
+    state: enabled
